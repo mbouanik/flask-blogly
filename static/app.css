@@ -1,0 +1,27 @@
+body {
+  font-size: 1rem;
+  background-color: rgb(0, 0, 255, 0.1);
+}
+
+img {
+  max-width: 10rem;
+}
+
+.container {
+  display: flex;
+  padding: 1rem;
+}
+
+.profile {
+  padding: 1rem;
+}
+
+.btn {
+  padding: 2rem;
+}
+
+a {
+  padding: 1rem;
+  text-decoration: none;
+  background-color: blue;
+}
