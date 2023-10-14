@@ -18,3 +18,8 @@ class User(db.Model):
     image_url = mapped_column(
         String, default="https://wallpapercave.com/wp/wp12696574.jpg"
     )
+
+    def get_full_name(self):
+        return f"{self.first_name} {self.last_name}"
+
+    full_name = property(get_full_name)
