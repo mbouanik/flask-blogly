@@ -22,29 +22,45 @@ def add_user():
 
 @app.route("/create-user", methods=["POST"])
 def create_user():
-    first_name = request.form.get("first_name")
-    last_name = request.form.get("last_name")
-    image_url = request.form.get("image_url")
-    image_url = image_url if image_url else None
+    user = User(
+        first_name=request.form["first_name"],
+        last_name=request.form["last_name"],
+        image_url=request.form["image_url"],
+    )
+    user.image_url = user.image_url if user.image_url else None
 
-    new_user = User(first_name=first_name, last_name=last_name, image_url=image_url)
-    db.session.add(new_user)
+    db.session.add(user)
     db.session.commit()
     return redirect("/")
 
 
-@app.route("/profile/<user_id>")
-def profile_user(user_id):
-    user = db.session.execute(db.select(User).where(User.id == user_id)).scalar_one()
+@app.route("/profile/<id>")
+def profile_user(id):
+    user = db.session.execute(db.select(User).where(User.id == id)).scalar()
     return render_template("profile.html", user=user)
 
 
-@app.route("/delete/<user_id>")
-def delete_user(user_id):
-    user = db.session.execute(db.select(User).where(User.id == user_id)).scalar_one()
+@app.route("/delete/<id>")
+def delete_user(id):
+    user = db.session.execute(db.select(User).where(User.id == id)).scalar()
     db.session.delete(user)
     db.session.commit()
     return redirect("/")
+
+
+@app.route("/edit/<id>", methods=["GET", "POST"])
+def edit_profile(id):
+    user = db.session.execute(db.select(User).where(User.id == id)).scalar()
+    if request.method == "POST":
+        user.first_name = request.form.get("first_name")
+        user.last_name = request.form.get("last_name")
+        user.image_url = request.form.get("image_url")
+        user.image_url = user.image_url if user.image_url else None
+
+        db.session.add(user)
+        db.session.commit()
+        return redirect(f"/profile/{user.id}")
+    return render_template("edit.html", user=user)
 
 
 if __name__ == "__main__":

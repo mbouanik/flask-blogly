@@ -9,19 +9,34 @@ img {
 
 .container {
   display: flex;
-  padding: 1rem;
+  padding: 2rem;
 }
 
 .profile {
   padding: 1rem;
 }
 
-.btn {
-  padding: 2rem;
+.poster {
+  padding-left: 1rem;
 }
 
-a {
-  padding: 1rem;
+.btn {
+  display: flex;
+}
+
+.btn a {
+  padding: 2rem;
+  color: white;
   text-decoration: none;
+}
+
+.edit {
   background-color: blue;
+  padding-right: 1rem;
+  margin: 0.2rem;
+}
+
+.delete {
+  background-color: red;
+  margin: 0.2rem;
 }

@@ -4,13 +4,17 @@
         <img src="{{user.image_url}}" />
     </div>
     
-    <div class='btn'>
+    <div class='poster'>
         <h1>{{user.first_name}}  {{user.last_name}}</h1>
-        <div class=''>
-            <a href='/edit/{{user.id}}' >Edit </a>
-            <a href='/delete/{{user.id}}' >Delete </a>
+        <div class='btn'>
+            <div class='edit'>
+                <a href='/edit/{{user.id}}' >Edit </a>
+            </div>
+            <div class='delete'>
+                <a href='/delete/{{user.id}}' >Delete </a>
+            </div>
         </div>
     </div>
 </div>
-
+<a href='/' > Go back </a>  
 {% endblock %}
