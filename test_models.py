@@ -6,9 +6,8 @@ from models import db, User
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///blogly_test"
 app.config["SQlALCHEMY_ECHO"] = False
 
-with app.app_context():
-    db.drop_all()
-    db.create_all()
+db.drop_all()
+db.create_all()
 
 
 class Blogly_test(TestCase):
