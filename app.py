@@ -17,6 +17,7 @@ def home():
 
 @app.route("/users")
 def users():
+    # show all users in a list
     users = User.query.all()
     return render_template("home.html", users=users)
 
@@ -40,6 +41,7 @@ def add_user():
 
 @app.route("/users/<user_id>")
 def profile_user(user_id):
+    # show details of the user
     user = User.query.get_or_404(user_id)
     return render_template("profile.html", user=user)
 

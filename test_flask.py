@@ -12,6 +12,7 @@ db.create_all()
 
 
 class UserViewsTestCase(TestCase):
+    # initialization one user for each test
     def setUp(self):
         User.query.delete()
         user = User(first_name="John", last_name="Doe")
@@ -20,6 +21,7 @@ class UserViewsTestCase(TestCase):
         self.user_id = user.id
         self.user = user
 
+    # after each test executed
     def tearDown(self):
         db.session.rollback()
 
