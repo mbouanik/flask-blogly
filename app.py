@@ -5,6 +5,7 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///blogly"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = True
+app.config["DEBUG"] = True
 
 connect_db(app)
 
@@ -16,9 +17,7 @@ def home():
 
 @app.route("/users")
 def users():
-    users = db.session.execute(
-        db.select(User).order_by(User.last_name, User.first_name)
-    ).scalars()
+    users = User.query.all()
     return render_template("home.html", users=users)
 
 
@@ -39,34 +38,34 @@ def add_user():
     return render_template("add_user.html")
 
 
-@app.route("/users/<id>")
-def profile_user(id):
-    user = db.session.execute(db.select(User).where(User.id == id)).scalar()
+@app.route("/users/<user_id>")
+def profile_user(user_id):
+    user = User.query.get_or_404(user_id)
     return render_template("profile.html", user=user)
 
 
-@app.route("/users/<id>/delete")
-def delete_user(id):
-    user = db.session.execute(db.select(User).where(User.id == id)).scalar()
+@app.route("/users/<user_id>/delete")
+def delete_user(user_id):
+    user = User.query.get_or_404(user_id)
     db.session.delete(user)
     db.session.commit()
-    return redirect("/")
+    return redirect("/users")
 
 
-@app.route("/users/<id>/edit", methods=["GET", "POST"])
-def edit_profile(id):
-    user = db.session.execute(db.select(User).where(User.id == id)).scalar()
+@app.route("/users/<user_id>/edit", methods=["GET", "POST"])
+def edit_profile(user_id):
+    user = User.query.get_or_404(user_id)
     if request.method == "POST":
         user.first_name = request.form.get("first_name")
         user.last_name = request.form.get("last_name")
         user.image_url = request.form.get("image_url")
-        user.image_url = user.image_url if user.image_url else None
+        user.image_url = (
+            user.image_url
+            if user.image_url
+            else "https://wallpapercave.com/wp/wp12696574.jpg"
+        )
 
         db.session.add(user)
         db.session.commit()
         return redirect(f"/users/{user.id}")
     return render_template("edit.html", user=user)
-
-
-if __name__ == "__main__":
-    app.run(debug=True)

@@ -1,6 +1,6 @@
 from unittest import TestCase
-from models import db, User
 from app import app
+from models import db, User
 
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///blogly_test"

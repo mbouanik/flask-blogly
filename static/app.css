@@ -31,12 +31,12 @@ img {
 }
 
 .edit {
-  background-color: blue;
+  background-color: rgb(100, 0, 255);
   padding-right: 1rem;
   margin: 0.2rem;
 }
 
 .delete {
-  background-color: red;
+  background-color: rgb(255, 0, 100);
   margin: 0.2rem;
 }
